@@ -1,28 +1,62 @@
-name: NodeJS with Webpack
+Webpack typically uses a configuration file named `webpack.config.js` (not `webpack.yml`). This JavaScript file allows you to define how webpack should process your files, handle dependencies, and bundle your application. Here's a basic example of what a `webpack.config.js` file might look like:
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+```javascript
+const path = require('path');
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+module.exports = {
+  entry: './src/index.js', // Entry point of your application
+  output: {
+    path: path.resolve(__dirname, 'dist'), // Output directory
+    filename: 'bundle.js', // Output bundle file name
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/, // Apply rule to all JavaScript files
+        exclude: /node_modules/, // Exclude node_modules folder
+        use: {
+          loader: 'babel-loader', // Use Babel for JavaScript transpilation
+          options: {
+            presets: ['@babel/preset-env'], // Babel preset for modern JavaScript
+          },
+        },
+      },
+      {
+        test: /\.css$/, // Apply rule to all CSS files
+        use: ['style-loader', 'css-loader'], // Use style-loader and css-loader for CSS files
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/, // Apply rule to all image files
+        use: ['file-loader'], // Use file-loader for images
+      },
+    ],
+  },
+};
+```
 
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
+### Explanation:
 
-    steps:
-    - uses: actions/checkout@v4
+1. **Entry**: Specifies the entry point of your application. This is typically where webpack starts bundling your files.
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+2. **Output**: Specifies where webpack should output the bundled files (`bundle.js` in the `dist` folder in this example).
 
-    - name: Build
-      run: |
-        npm install
-        npx webpack
+3. **Module and Rules**: Defines how webpack should process different types of files using loaders. Loaders transform files before they are added to the bundle.
+
+   - **babel-loader**: Transpiles modern JavaScript using Babel, ensuring compatibility with older browsers.
+   - **style-loader** and **css-loader**: Allows webpack to import CSS files and inject styles into the DOM.
+   - **file-loader**: Handles image files, copying them to the output directory and renaming them as necessary.
+
+### Setting Up:
+
+1. **Install Webpack and Required Loaders**:
+   ```bash
+   npm install webpack webpack-cli babel-loader @babel/core @babel/preset-env style-loader css-loader file-loader --save-dev
+   ```
+
+2. **Create a `src` Directory**:
+   Place your JavaScript (`index.js` as the entry point) and other source files (CSS, images) here.
+
+3. **Run Webpack**:
+   Once configured, you can run webpack from the command line (assuming you have `webpack` and `webpack-cli` installed globally) or via npm scripts defined in your `package.json`.
+
+Webpack is highly configurable, and this example covers only basic usage. Depending on your project's needs, you may need additional plugins or configurations. The `webpack.config.js` file is where you define how webpack processes your application's assets and prepares them for deployment.
