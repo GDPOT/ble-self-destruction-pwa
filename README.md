@@ -15,7 +15,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/AUTOMAGICKNIGHT/ble-self-destruction-pwa.git
+git clone https://github.com/automagicknight/ble-self-destruction-pwa.git
 cd ble-self-destruction-pwa
 Setup:
 
@@ -105,7 +105,7 @@ For inquiries, partnerships, or feedback, contact:
 
 General Inquiries: support@sovereigngated.com
 Technical Support: support@sovereigngated.com
-Partnerships: support@sovereigngated.com
+Partnerships: admin@sovereigngated.com
 Media Inquiries: media@sovereigngated.com
 Feedback and Suggestions: feedback@sovereigngated.com
 Stay updated via Twitter, Facebook, and LinkedIn.
